@@ -1,0 +1,32 @@
+{
+  "name": "mastercard-hosted-session",
+  "version": "1.0.0",
+  "description": "Wrapper around Mastercard hosted session, allowing you to treat it as a modern Promise-based Javascript API.",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HowlingEverett/mastercard-hosted-session.git"
+  },
+  "keywords": [
+    "tns",
+    "mastercard",
+    "paymentgateway",
+    "js"
+  ],
+  "author": "@howlingeverett",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/HowlingEverett/mastercard-hosted-session/issues"
+  },
+  "homepage": "https://github.com/HowlingEverett/mastercard-hosted-session#readme",
+  "devDependencies": {
+    "mocha": "^6.1.4",
+    "power-assert": "^1.6.1"
+  },
+  "dependencies": {
+    "promise-latest": "^1.0.4"
+  }
+}
