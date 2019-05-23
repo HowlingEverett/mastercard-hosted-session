@@ -23,10 +23,12 @@
   },
   "homepage": "https://github.com/HowlingEverett/mastercard-hosted-session#readme",
   "devDependencies": {
+    "@babel/core": "^7.4.4",
+    "@babel/preset-env": "^7.4.4",
     "mocha": "^6.1.4",
     "power-assert": "^1.6.1"
   },
   "dependencies": {
-    "promise-latest": "^1.0.4"
+    "uuid": "^3.3.2"
   }
 }
