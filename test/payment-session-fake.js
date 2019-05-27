@@ -13,32 +13,6 @@ const INITIALIZED_RESPONSES = {
 }
 
 const CALLBACK_RESPONSES = {
-  success: {
-    status: 'ok',
-    merchant: 'TESTMERCHANTID',
-    session: {
-      id: 'SESSION000218450948092491657986',
-      updateStatus: 'SUCCESS',
-      version: 'e3f144ce02'
-    },
-    sourceOfFunds: {
-      provided: {
-        card: {
-          brand: 'MASTERCARD',
-          expiry: {
-            month: '5',
-            year: '21'
-          },
-          fundingMethod: 'DEBIT',
-          nameOnCard: 'John Smith',
-          number: '512345xxxxxx8769',
-          scheme: 'MASTERCARD'
-        }
-      },
-      type: 'CARD'
-    },
-    version: '52'
-  },
   fields_in_error: {
     status: 'fields_in_error',
     session: {
@@ -72,11 +46,42 @@ const CALLBACK_RESPONSES = {
   }
 }
 
+const DEFAULT_SESSION_ID = 'SESSION000218450948092491657986'
+const sessionWithId = (sessionId) => {
+  return {
+    status: 'ok',
+    merchant: 'TESTMERCHANTID',
+    session: {
+      id: sessionId || DEFAULT_SESSION_ID,
+      updateStatus: 'SUCCESS',
+      version: 'e3f144ce02'
+    },
+    sourceOfFunds: {
+      provided: {
+        card: {
+          brand: 'MASTERCARD',
+          expiry: {
+            month: '5',
+            year: '21'
+          },
+          fundingMethod: 'DEBIT',
+          nameOnCard: 'John Smith',
+          number: '512345xxxxxx8769',
+          scheme: 'MASTERCARD'
+        }
+      },
+      type: 'CARD'
+    },
+    version: '52'
+  }
+}
+
 class PaymentSessionFake {
   constructor () {
     this.config = null
     this.initializedCallback = () => {}
     this.formSessionUpdateCallback = () => {}
+    this.delay = 0
   }
 
   configure (config) {
@@ -96,12 +101,17 @@ class PaymentSessionFake {
 
   updateSessionFromForm () {
     // Poor man's process.nextTick
-    Promise.resolve().then(() => {
-      const responseType = this.config.sessionizedResponse
-      const response = CALLBACK_RESPONSES[responseType] ||
-        CALLBACK_RESPONSES['success']
-      this.formSessionUpdateCallback(response)
-    })
+    Promise.resolve()
+      .then(() => {
+        return new Promise(resolve => setTimeout(resolve, this.delay))
+      })
+      .then(() => {
+        const responseType = this.config.sessionizedResponse || 'success'
+        const response = responseType === 'success'
+          ? sessionWithId()
+          : CALLBACK_RESPONSES[responseType]
+        this.formSessionUpdateCallback(response)
+      })
   }
 }
 
