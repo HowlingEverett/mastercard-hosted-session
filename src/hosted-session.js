@@ -1,4 +1,4 @@
-const uuid = require('uuid/v4')
+import uuid from 'uuid/v4'
 
 class HostedSession {
   constructor (paymentSession, config) {
@@ -108,7 +108,7 @@ class HostedSessionValidationError extends Error {
   }
 }
 
-module.exports = {
+export {
   HostedSession,
   HostedSessionError,
   HostedSessionValidationError

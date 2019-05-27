@@ -2,9 +2,14 @@
   "name": "mastercard-hosted-session",
   "version": "1.0.0",
   "description": "Wrapper around Mastercard hosted session, allowing you to treat it as a modern Promise-based Javascript API.",
-  "main": "index.js",
+  "main": "lib/index.js",
+  "files": [
+    "/lib"
+  ],
   "scripts": {
-    "test": "mocha --require @babel/register ./lib/**/__tests__/*-test.js"
+    "build": "babel src -d lib --ignore 'src/__tests__/*.js'",
+    "test": "mocha --require @babel/register src/**/__tests__/*-test.js",
+    "prepublish": "npm run-script build"
   },
   "repository": {
     "type": "git",
@@ -23,6 +28,7 @@
   },
   "homepage": "https://github.com/HowlingEverett/mastercard-hosted-session#readme",
   "devDependencies": {
+    "@babel/cli": "^7.4.4",
     "@babel/core": "^7.4.4",
     "@babel/preset-env": "^7.4.4",
     "@babel/register": "^7.4.4",

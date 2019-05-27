@@ -1,5 +1,5 @@
-const getScript = require('./lib/get-script')
-const { HostedSession } = require('./lib/hosted-session')
+import getScript from './get-script'
+import { HostedSession } from './hosted-session'
 
 /**
  * Resolves a configured and initialised Hosted Session wrapper. You can use
@@ -40,4 +40,4 @@ const configureSession = (paymentSession, config) => {
   return sessionInstance.initialize()
 }
 
-module.exports = getHostedSession
+export default getHostedSession
