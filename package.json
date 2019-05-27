@@ -4,7 +4,7 @@
   "description": "Wrapper around Mastercard hosted session, allowing you to treat it as a modern Promise-based Javascript API.",
   "main": "index.js",
   "scripts": {
-    "test": "mocha"
+    "test": "mocha --require @babel/register ./lib/**/__tests__/*-test.js"
   },
   "repository": {
     "type": "git",
