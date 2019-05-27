@@ -15,7 +15,7 @@ const INITIALIZED_RESPONSES = {
 const CALLBACK_RESPONSES = {
   success: {
     status: 'ok',
-    merchant: 'TESTMERCHANT',
+    merchant: 'TESTMERCHANTID',
     session: {
       id: 'SESSION000218450948092491657986',
       updateStatus: 'SUCCESS',
