@@ -15,11 +15,11 @@ import { HostedSession } from './hosted-session'
 const getHostedSession = ({
   merchantId,
   config,
-  paymentSession = global.PaymentSession
+  paymentSession
 }) => {
   return getScript(merchantId)
     .then(() => {
-      return configureSession(paymentSession, config)
+      return configureSession(paymentSession || global.PaymentSession, config)
     })
 }
 
