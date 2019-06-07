@@ -24,6 +24,7 @@ export default (merchantId) => {
 
       script.onerror = (error) => {
         if (retries > maxRetries || Date.now() >= timeout) {
+          clearTimeout(handleTimeout)
           return reject(error)
         }
         return appendScript()
