@@ -1,18 +1,21 @@
 const { describe, it } = require('mocha')
 const assert = require('assert')
+const sinon = require('sinon')
 
-const paymentSessionFake = require('../../test/payment-session-fake')
+const PaymentSessionFake = require('../../test/payment-session-fake')
 const {
   HostedSession,
   HostedSessionError,
   HostedSessionValidationError
 } = require('../hosted-session')
 
+let paymentSessionFake
 describe('hosted-session wrapper module', () => {
   const hostedSessionInstance = async (
     initializedResponse = 'success',
     sessionizedResponse = 'success'
   ) => {
+    paymentSessionFake = new PaymentSessionFake()
     return new HostedSession(
       paymentSessionFake,
       {
@@ -80,21 +83,21 @@ describe('hosted-session wrapper module', () => {
     const hostedSession = await hostedSessionInstance()
 
     // First request, long delay, if non-sequential would resolve last
-    paymentSessionFake.delay = 400
+    paymentSessionFake.delay = 4
     const a = hostedSession.sessionize()
       .then(() => {
         return new Date()
       })
 
     // If non-sequential, this would resolve second
-    paymentSessionFake.delay = 200
+    paymentSessionFake.delay = 2
     const b = hostedSession.sessionize()
       .then(() => {
         return new Date()
       })
 
     // If non-sequential, this would resolve first
-    paymentSessionFake.delay = 100
+    paymentSessionFake.delay = 1
     const c = hostedSession.sessionize()
       .then(() => {
         return new Date()
@@ -105,5 +108,32 @@ describe('hosted-session wrapper module', () => {
       assert(aDate < cDate)
       assert(bDate < cDate) // B resolves before C
     })
+  })
+
+  it('should pass hooks onto the wrapped payment session', async () => {
+    const hostedSession = await hostedSessionInstance()
+
+    sinon.spy(paymentSessionFake, 'onFocus')
+    sinon.spy(paymentSessionFake, 'onBlur')
+    sinon.spy(paymentSessionFake, 'onChange')
+    sinon.spy(paymentSessionFake, 'onMouseOver')
+    sinon.spy(paymentSessionFake, 'onMouseOut')
+
+    const callbackStub = sinon.stub()
+
+    hostedSession.onFocus(['card.number'], callbackStub)
+    assert(paymentSessionFake.onFocus.calledWith(['card.number'], callbackStub))
+
+    hostedSession.onBlur(['card.number'], callbackStub)
+    assert(paymentSessionFake.onBlur.calledWith(['card.number'], callbackStub))
+
+    hostedSession.onChange(['card.number'], callbackStub)
+    assert(paymentSessionFake.onChange.calledWith(['card.number'], callbackStub))
+
+    hostedSession.onMouseOver(['card.number'], callbackStub)
+    assert(paymentSessionFake.onMouseOver.calledWith(['card.number'], callbackStub))
+
+    hostedSession.onMouseOut(['card.number'], callbackStub)
+    assert(paymentSessionFake.onMouseOut.calledWith(['card.number'], callbackStub))
   })
 })

@@ -113,6 +113,26 @@ class PaymentSessionFake {
         this.formSessionUpdateCallback(response)
       })
   }
+
+  onChange () {
+
+  }
+
+  onFocus () {
+
+  }
+
+  onBlur () {
+
+  }
+
+  onMouseOver () {
+
+  }
+
+  onMouseOut () {
+
+  }
 }
 
-module.exports = new PaymentSessionFake()
+module.exports = PaymentSessionFake

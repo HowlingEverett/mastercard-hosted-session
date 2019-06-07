@@ -22,7 +22,7 @@ class HostedSession {
         callbacks: {
           initialized: (result) => {
             if (result.status === 'ok') {
-              return resolve(this)
+              return resolve(this._proxy())
             } else {
               return reject(
                 new HostedSessionError(result.message, result.status)
@@ -49,6 +49,25 @@ class HostedSession {
     const requestId = uuid()
     this.sessionizeCalls.push(requestId)
     return this._sessionize(requestId)
+  }
+
+  _proxy () {
+    const internalHooks = [
+      'onFocus',
+      'onBlur',
+      'onChange',
+      'onMouseOver',
+      'onMouseOut'
+    ]
+    return new Proxy(this, {
+      get: (object, property) => {
+        if (internalHooks.includes(property)) {
+          return Reflect.get(this.paymentSession, property)
+        } else {
+          return Reflect.get(this, property)
+        }
+      }
+    })
   }
 
   _sessionize (requestId) {
