@@ -39,4 +39,6 @@ export default (merchantId) => {
       document.body.appendChild(script)
     })
   }
+
+  return appendScript()
 }
