@@ -24,7 +24,7 @@ export default (merchantId) => {
       script.crossOrigin = 'anoymous'
 
       script.onerror = (error) => {
-        if (retries > maxRetries || Date.now() >= timeout) {
+        if (++retries > maxRetries || Date.now() >= timeout) {
           clearTimeout(handleTimeout)
           return reject(error)
         }
