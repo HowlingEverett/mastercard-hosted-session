@@ -61,7 +61,10 @@ class HostedSession {
     ]
     return new Proxy(this, {
       get: (object, property) => {
-        if (internalHooks.includes(property)) {
+        const propertyString = typeof property === 'symbol'
+          ? property.description
+          : property.toString()
+        if (internalHooks.includes(propertyString)) {
           return Reflect.get(this.paymentSession, property)
         } else {
           return Reflect.get(this, property)
