@@ -40,4 +40,6 @@ const configureSession = (paymentSession, config) => {
   return sessionInstance.initialize()
 }
 
+export { HostedSessionError, HostedSessionValidationError } from './hosted-session'
+
 export default getHostedSession
