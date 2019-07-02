@@ -1,5 +1,5 @@
 export default (merchantId) => {
-  const scriptSrc = `https://ap-gateway.mastercard.com/form/version/51/merchant/${merchantId}/session.js`
+  const scriptSrc = `https://ap-gateway.mastercard.com/form/version/52/merchant/${merchantId}/session.js`
   let retries = 0
   const maxRetries = 5
   const timeoutTimer = 30 * 1000
