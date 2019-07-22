@@ -1,4 +1,3 @@
-import getScript from './get-script'
 import { HostedSession } from './hosted-session'
 
 /**
@@ -13,14 +12,10 @@ import { HostedSession } from './hosted-session'
  * if the session cannot be initialised.
  */
 const getHostedSession = ({
-  merchantId,
   config,
   paymentSession
 }) => {
-  return getScript(merchantId)
-    .then(() => {
-      return configureSession(paymentSession || global.PaymentSession, config)
-    })
+  return configureSession(paymentSession || global.PaymentSession, config)
 }
 
 let sessionInstance

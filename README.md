@@ -27,6 +27,19 @@ support *ES6 Promises*, since this facade relies on them heavily. Many browsers
 already natively support Promises, but if a target browser you support does not
 you'll need to include a polyfill.
 
+## Prerequisites
+
+Unfortunately, Mastercard's `session.js` does not return `Access-Control-Allow-Origin`
+headers when you request the script for your merchant ID. This means this library is
+unable to dynamically append the Mastercard script for you, for reasons of CORS restrictions.
+
+You must append a script tag containing your own Mastercard `session.js` script, e.g.
+
+```html
+<script src="https://ap-gateway.mastercard.com/form/version/52/merchant/<MERCHANT_ID>/session.js" />
+<script src="myCodeBundle.js" />
+```
+
 ## Installation
 
 ```bash
@@ -50,7 +63,7 @@ tool support them.
 ```javascript
 const getHostedSession = require('mastercard-hosted-session')
 
-getHostedSession('MYMERCHANTID', {
+getHostedSession({
   fields: {
     card: {
       number: '#card-number',
