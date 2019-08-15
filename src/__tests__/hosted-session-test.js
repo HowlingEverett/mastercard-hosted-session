@@ -3,11 +3,7 @@ const assert = require('assert')
 const sinon = require('sinon')
 
 const PaymentSessionFake = require('../../test/payment-session-fake')
-const {
-  HostedSession,
-  HostedSessionError,
-  HostedSessionValidationError
-} = require('../hosted-session')
+const { HostedSession, HostedSessionError } = require('../hosted-session')
 
 let paymentSessionFake
 describe('hosted-session wrapper module', () => {
@@ -43,20 +39,17 @@ describe('hosted-session wrapper module', () => {
     assert(result.sourceOfFunds.provided.card.brand === 'MASTERCARD')
   })
 
-  it('should reject if fields are invalid in the iframe', async () => {
+  it('should resolve if fields are invalid in the iframe', async () => {
     const hostedSession = await hostedSessionInstance(
       'success',
       'fields_in_error'
     )
-    try {
-      await hostedSession.sessionize()
-    } catch (error) {
-      assert(error instanceof HostedSessionValidationError)
-      assert.deepStrictEqual(
-        Object.keys(error.fieldErrors),
-        ['cardNumber', 'securityCode']
-      )
-    }
+
+    const result = await hostedSession.sessionize()
+
+    assert(result.status === 'fields_in_error')
+    assert.deepStrictEqual(Object.keys(result.errors),
+      ['cardNumber', 'securityCode'])
   })
 
   it('should reject if the script fails', async () => {

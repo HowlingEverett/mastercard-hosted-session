@@ -93,10 +93,8 @@ class HostedSession {
         this.activeRequest = null
 
         const result = this.sessionResultStack.pop()
-        if (result.status === 'ok') {
+        if (result.status === 'ok' || result.status === 'fields_in_error') {
           return resolve(result)
-        } else if (result.status === 'fields_in_error') {
-          return reject(new HostedSessionValidationError(result.errors))
         } else {
           return reject(new HostedSessionError(result.errors.message,
             result.status))
@@ -120,18 +118,7 @@ class HostedSessionError extends Error {
   }
 }
 
-class HostedSessionValidationError extends Error {
-  constructor (fieldErrors) {
-    super()
-
-    this.message = `Invalid fields in form: ${Object.keys(fieldErrors).join(', ')}`
-    this.stack = (new Error(this.message)).stack
-    this.fieldErrors = fieldErrors
-  }
-}
-
 export {
   HostedSession,
-  HostedSessionError,
-  HostedSessionValidationError
+  HostedSessionError
 }

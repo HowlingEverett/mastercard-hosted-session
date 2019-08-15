@@ -83,11 +83,12 @@ getHostedSession({
   // hostedSession is a facade that has one public function: `sezzionize`
   return hostedSession.sessionize()
 }).then((result) => {
+  console.log(result.status) // e.g. 'ok' or 'fields_in_error'
   console.log(result.session.id) // e.g. SESSION001212312123123123
   console.log(result.sourceOfFunds.provided.card.brand) // e.g 'MASTERCARD'
 }).catch(error => {
-  // The facade rejects with HostedSessionError or HostedSessionValidationError
-  // if the script fails to append, fails to sessionise, or fails validation.
+  // The facade rejects with HostedSessionError
+  // if the script fails to append, or fails to sessionise.
   console.error(error)
 })
 ```
