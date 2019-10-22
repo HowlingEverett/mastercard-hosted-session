@@ -1,6 +1,6 @@
 {
   "name": "mastercard-hosted-session",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "Wrapper around Mastercard hosted session, allowing you to treat it as a modern Promise-based Javascript API.",
   "main": "lib/index.js",
   "files": [
